@@ -5,13 +5,16 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:youtubeApp"
         mc:Ignorable="d"
-        Title="MainWindow" Height="200  " Width="600">
+        Title="YoutubeMiz" Height="295" Width="600">
     <Grid>
         <Button x:Name="btnDownload" Content="Download
-                " HorizontalAlignment="Left" Margin="10,43,0,0" VerticalAlignment="Top" Width="60" Click="btnDownload_Click"/>
+                " HorizontalAlignment="Left" Margin="529,43,0,0" VerticalAlignment="Top" Width="60" Click="btnDownload_Click"/>
         <TextBox x:Name="txtURL" HorizontalAlignment="Left" Margin="10,10,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="504"/>
         <CheckBox x:Name="checkAudio" Content="Audio" HorizontalAlignment="Left" Margin="529,12,0,0" VerticalAlignment="Top"/>
-        <ProgressBar x:Name="pbarDownload" Margin="75,43,86,121"/>
+        <ProgressBar x:Name="pbarMain" HorizontalAlignment="Left" Height="20" Margin="10,43,0,0" VerticalAlignment="Top" Width="504"/>
+        <Image x:Name="imgThumbnail" HorizontalAlignment="Left" Height="160" Margin="10,70,0,0" VerticalAlignment="Top" Width="284"/>
+        <Label x:Name="lblTitle" Content="Title: " HorizontalAlignment="Left" Margin="310,94,0,0" VerticalAlignment="Top"/>
+        <Label x:Name="lblTitleAnswered" Content="" HorizontalAlignment="Left" Margin="338,94,0,0" VerticalAlignment="Top"/>
 
     </Grid>
 </Window>

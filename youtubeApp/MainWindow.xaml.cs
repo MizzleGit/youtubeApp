@@ -26,6 +26,7 @@ namespace youtubeApp
 
         async private void btnDownload_Click(object sender, RoutedEventArgs e)
         {
+            pbarMain.Value = 0;
             var youtube = new YoutubeClient();
 
             string videoUrl = txtURL.Text;
@@ -33,52 +34,87 @@ namespace youtubeApp
 
             if (checkAudio.IsChecked == true)
             {
-                var streamManifest = await youtube.Videos.Streams.GetManifestAsync(videoUrl);
-
-                var streamInfo = streamManifest.GetAudioOnlyStreams().GetWithHighestBitrate();
-
-                var stream = await youtube.Videos.Streams.GetAsync(streamInfo);
-
-                var video = await youtube.Videos.GetAsync(videoUrl);
-
-                string title = video.Title;
-                string[] errorChars = { "?", "/", "*", "|", ":", "<", ">", "\"" };
-                foreach (string errorChar in errorChars)
+                try
                 {
-                    title = title.Replace(errorChar, "");
+                    var streamManifest = await youtube.Videos.Streams.GetManifestAsync(videoUrl);
+
+                    var streamInfo = streamManifest.GetAudioOnlyStreams().GetWithHighestBitrate();
+
+                    var stream = await youtube.Videos.Streams.GetAsync(streamInfo);
+
+                    var video = await youtube.Videos.GetAsync(videoUrl);
+
+                    string thumbnail = video.Thumbnails.OrderByDescending(t => t.Resolution.Area).First().Url;
+
+                    string title = video.Title;
+                    string[] errorChars = { "?", "/", "*", "|", ":", "<", ">", "\"" };
+                    foreach (string errorChar in errorChars)
+                    {
+                        title = title.Replace(errorChar, "");
+                    }
+
+                    var outputDirectory = @"M:\YT";
+                    var outputFilePath = System.IO.Path.Combine(outputDirectory, $"{title}.{streamInfo.Container}");
+
+                    var progress = new Progress<double>(p =>
+                    {
+                        pbarMain.Value = p * 100;
+                    });
+
+                    BitmapImage bmImage = new BitmapImage(new Uri(thumbnail));
+                    imgThumbnail.Source = bmImage;
+
+                    await youtube.Videos.Streams.DownloadAsync(streamInfo, outputFilePath, progress);
+
+                    if (pbarMain.Value == 100)
+                    {
+                        pbarMain.Value = 0;
+                    }
                 }
-
-                var outputDirectory = @"C:\Users\Youssef\Downloads\YT_Tests";
-                var outputFilePath = System.IO.Path.Combine(outputDirectory, $"{video.Title}.{streamInfo.Container}");
-
-                var progress = new Progress<double>(p =>
+                catch (Exception ex)
                 {
-                    pbarDownload.Value = p;
-                });
-
-                await youtube.Videos.Streams.DownloadAsync(streamInfo, outputFilePath);
+                    MessageBox.Show(ex.Message, "Error!", MessageBoxButton.OK, MessageBoxImage.Error);
+                }
 
             }
             else
             {
-                var streamManifest = await youtube.Videos.Streams.GetManifestAsync(videoUrl);
-
-                var streamInfo = streamManifest.GetMuxedStreams().GetWithHighestVideoQuality();
-
-                var stream = await youtube.Videos.Streams.GetAsync(streamInfo);
-
-                var video = await youtube.Videos.GetAsync(videoUrl);
-
-                string title = video.Title;
-                string[] errorChars = { "?", "/", "*", "|", ":", "<", ">", "\"" };
-                foreach (string errorChar in errorChars)
+                try
                 {
-                    title = title.Replace(errorChar, "");
-                }
-                var outputDirectory = @"C:\Users\Youssef\Downloads\YT_Tests";
-                var outputFilePath = System.IO.Path.Combine(outputDirectory, $"{video.Title}.{streamInfo.Container}");
+                    var streamManifest = await youtube.Videos.Streams.GetManifestAsync(videoUrl);
 
-                await youtube.Videos.Streams.DownloadAsync(streamInfo, outputFilePath);
+                    var streamInfo = streamManifest.GetMuxedStreams().GetWithHighestVideoQuality();
+
+                    var stream = await youtube.Videos.Streams.GetAsync(streamInfo);
+
+                    var video = await youtube.Videos.GetAsync(videoUrl);
+
+                    string thumbnail = video.Thumbnails.OrderByDescending(t => t.Resolution.Area).First().Url;
+
+                    string title = video.Title;
+                    string[] errorChars = { "?", "/", "*", "|", ":", "<", ">", "\"" };
+                    foreach (string errorChar in errorChars)
+                    {
+                        title = title.Replace(errorChar, "");
+                    }
+
+                    var outputDirectory = @"M:\YT";
+                    var outputFilePath = System.IO.Path.Combine(outputDirectory, $"{title}.{streamInfo.Container}");
+
+                    var progress = new Progress<double>(p =>
+                    {
+                        pbarMain.Value = p * 100;
+                    });
+
+                    BitmapImage bmImage = new BitmapImage(new Uri(thumbnail));
+                    imgThumbnail.Source = bmImage;
+
+                    await youtube.Videos.Streams.DownloadAsync(streamInfo, outputFilePath, progress);
+                }
+                catch(Exception ex)
+                {
+                    MessageBox.Show(ex.Message, "Error!", MessageBoxButton.OK, MessageBoxImage.Error);
+                }
             }
         }
     }
