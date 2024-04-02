@@ -8,9 +8,9 @@
         Title="YoutubeMiz" Height="295" Width="600">
     <Grid>
         <Button x:Name="btnDownload" Content="Download
-                " HorizontalAlignment="Left" Margin="529,43,0,0" VerticalAlignment="Top" Width="60" Click="btnDownload_Click"/>
+                " HorizontalAlignment="Left" Margin="519,43,0,0" VerticalAlignment="Top" Width="60" Click="btnDownload_Click"/>
         <TextBox x:Name="txtURL" HorizontalAlignment="Left" Margin="10,10,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="504"/>
-        <CheckBox x:Name="checkAudio" Content="Audio" HorizontalAlignment="Left" Margin="529,12,0,0" VerticalAlignment="Top"/>
+        <CheckBox x:Name="checkAudio" Content="Audio" HorizontalAlignment="Left" Margin="522,10,0,0" VerticalAlignment="Top"/>
         <ProgressBar x:Name="pbarMain" HorizontalAlignment="Left" Height="20" Margin="10,43,0,0" VerticalAlignment="Top" Width="504"/>
         <Image x:Name="imgThumbnail" HorizontalAlignment="Left" Height="160" Margin="10,70,0,0" VerticalAlignment="Top" Width="284"/>
         <Label x:Name="lblTitle" Content="Title: " HorizontalAlignment="Left" Margin="310,94,0,0" VerticalAlignment="Top"/>

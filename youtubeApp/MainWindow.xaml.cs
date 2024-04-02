@@ -84,6 +84,7 @@ namespace youtubeApp
                     var streamManifest = await youtube.Videos.Streams.GetManifestAsync(videoUrl);
 
                     var streamInfo = streamManifest.GetMuxedStreams().GetWithHighestVideoQuality();
+                    lblTitleAnswered.Content = streamInfo.VideoQuality;
 
                     var stream = await youtube.Videos.Streams.GetAsync(streamInfo);
 
